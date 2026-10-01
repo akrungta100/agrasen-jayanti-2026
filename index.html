@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Agrasen Jayanti 2026 | Games</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">ॐ</div><div><b>Agrasen Jayanti</b><span>Mahotsav 2026</span></div></div>
+  <button class="icon-btn" onclick="showPage('registrations')">🎟️</button>
+</header>
+
+<section id="home" class="page active">
+  <div class="hero-card">
+    <div class="hero-pattern"></div>
+    <div class="hero-content">
+      <div class="small">॥ जय अग्रसेन ॥ ॥ जय अग्रोहा ॥ ॥ जय अग्रवाल ॥</div>
+      <h1>अग्रसेन जयंती<br><em>महोत्सव 2026</em></h1>
+      <p>Fun Games • Stronger Bonds</p>
+      <button class="gold-btn" onclick="showPage('games')">Explore Games →</button>
+    </div>
+  </div>
+  <div class="quick-stats">
+    <div><b>20</b><span>Games</span></div><div><b>₹50</b><span>Per Game</span></div><div><b>9–10</b><span>October</span></div>
+  </div>
+  <div class="section-head"><div><span>PLAY • LAUGH • CELEBRATE</span><h2>Games for Everyone</h2></div><button onclick="showPage('games')">View all</button></div>
+  <div id="featured" class="horizontal"></div>
+  <div class="notice"><b>Simple registration</b><br>Choose any game, enter participant details and pay ₹50 per participant. There is no participant limit and no slot booking.</div>
+</section>
+
+<section id="games" class="page">
+  <div class="page-title"><span>20 GAMES</span><h2>Choose Your Game</h2></div>
+  <div class="filters"><input id="search" placeholder="🔎 Search a game..."><select id="date"><option value="">All dates</option><option value="2026-10-09">9 October</option><option value="2026-10-10">10 October</option></select></div>
+  <div id="grid" class="game-grid"></div>
+</section>
+
+<section id="details" class="page">
+  <button class="back" onclick="showPage('games')">← Back to games</button>
+  <div id="detailsContent"></div>
+</section>
+
+<section id="register" class="page">
+  <button class="back" onclick="showPage('details')">← Back</button>
+  <div id="registerContent"></div>
+</section>
+
+<section id="payment" class="page">
+  <button class="back" onclick="showPage('register')">← Back</button>
+  <div id="paymentContent"></div>
+</section>
+
+<section id="success" class="page">
+  <div id="successContent"></div>
+</section>
+
+<section id="registrations" class="page">
+  <div class="page-title"><span>MY REGISTRATIONS</span><h2>Your Games</h2></div>
+  <div id="registrationList"></div>
+</section>
+
+<nav class="bottom-nav">
+  <button onclick="showPage('home')" id="nav-home">⌂<span>Home</span></button>
+  <button onclick="showPage('games')" id="nav-games">🏆<span>Games</span></button>
+  <button onclick="showPage('registrations')" id="nav-registrations">🎟️<span>My Games</span></button>
+</nav>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
