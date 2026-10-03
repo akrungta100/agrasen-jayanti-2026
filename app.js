@@ -1,10 +1,29 @@
 let games=[], selected=null, registrations=JSON.parse(localStorage.getItem('agrasen_regs')||'[]');
 const $=id=>document.getElementById(id);
-fetch('games.json').then(r=>r.json()).then(d=>{games=d;renderFeatured();renderGames()});
+fetch('games.json').then(r=>r.json()).then(d=>{games=d;initGameFilters();renderFeatured();renderGames()});
 function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));$(id).classList.add('active');window.scrollTo(0,0);if(id==='registrations')renderRegistrations()}
 function renderFeatured(){let picks=games.slice(0,5);$('featured').innerHTML=picks.map(g=>`<div class="mini-card" onclick="openDetails('${g.id}')"><img src="assets/${g.poster}"><div><b>${g.name}</b><br><small>₹50 • ${g.dateLabel}</small></div></div>`).join('')}
-function renderGames(){let q=($('search')?.value||'').toLowerCase(),d=$('date')?.value||'';let list=games.filter(g=>(!q||g.name.toLowerCase().includes(q))&&(!d||g.date===d));$('grid').innerHTML=list.map(g=>`<article class="game"><img src="assets/${g.poster}"><div class="game-body"><h3>${g.name}</h3><div class="tags"><span class="tag">🎂 ${g.age}</span><span class="tag">👥 ${g.category}</span><span class="tag">📅 ${g.dateLabel}</span><span class="tag">₹50</span></div><button onclick="openDetails('${g.id}')">View & Register</button></div></article>`).join('')}
-$('search')?.addEventListener('input',renderGames);$('date')?.addEventListener('change',renderGames);
+function initGameFilters(){
+  const category=$('category'), age=$('ageFilter');
+  if(category){
+    const categories=[...new Set(games.map(g=>g.category))];
+    category.innerHTML='<option value="">All categories</option>'+categories.map(v=>`<option value="${v}">${v}</option>`).join('');
+  }
+  if(age){
+    const preferred=['0–5','5–15','10–15','15–30','16–30','16+','18+','Below 30','30+','All','Any','Not specified'];
+    const available=new Set(games.flatMap(g=>g.ageGroups||[]));
+    age.innerHTML='<option value="">All age groups</option>'+preferred.filter(v=>available.has(v)).map(v=>`<option value="${v}">${v}</option>`).join('');
+  }
+}
+function renderGames(){
+  let q=($('search')?.value||'').toLowerCase(), d=$('date')?.value||'', c=$('category')?.value||'', a=$('ageFilter')?.value||'';
+  let list=games.filter(g=>(!q||g.name.toLowerCase().includes(q))&&(!d||g.date===d)&&(!c||g.category===c)&&(!a||(g.ageGroups||[]).includes(a)));
+  $('grid').innerHTML=list.length?list.map(g=>`<article class="game"><img src="assets/${g.poster}"><div class="game-body"><h3>${g.name}</h3><div class="tags"><span class="tag">🎂 ${g.age}</span><span class="tag">👥 ${g.category}</span><span class="tag">📅 ${g.dateLabel}</span><span class="tag">₹50</span></div><button onclick="openDetails('${g.id}')">View & Register</button></div></article>`).join(''):'<div class="empty">No games match these filters.</div>';
+}
+$('search')?.addEventListener('input',renderGames);
+$('date')?.addEventListener('change',renderGames);
+$('category')?.addEventListener('change',renderGames);
+$('ageFilter')?.addEventListener('change',renderGames);
 function openDetails(id){selected=games.find(g=>g.id===id);$('detailsContent').innerHTML=`<div class="detail-card"><img src="assets/${selected.poster}"><div class="detail-body"><h2>${selected.name}</h2><div class="detail-meta"><div>📅 <b>${selected.dateLabel}</b></div><div>⏰ <b>${selected.time}</b></div><div>👥 <b>${selected.category}</b></div><div>🎂 <b>${selected.age}</b></div></div><div class="fee">Registration Fee: ₹50 / participant</div><p>No participant limit. No slot booking or slot duration.</p><button class="red-btn" onclick="openRegister()">Register for this Game →</button></div></div>`;showPage('details')}
 function openRegister(){$('registerContent').innerHTML=`<div class="form-card"><div class="page-title"><span>REGISTRATION</span><h2>${selected.name}</h2></div><div class="summary">📅 ${selected.dateLabel} • ⏰ ${selected.time}<br>👥 ${selected.category} • 🎂 ${selected.age}<br><b>₹50 per participant</b></div><form class="form" onsubmit="goPayment(event)"><label>Participant Name<input id="pname" required placeholder="Enter full name"></label><label>Mobile / WhatsApp Number<input id="mobile" required type="tel" pattern="[0-9]{10}" placeholder="10-digit mobile number"></label><label>Age<input id="age" required type="number" min="0" max="100" placeholder="Age"></label><label>Guardian / Partner Name<input id="guardian" placeholder="If applicable"></label><button class="red-btn">Continue →</button></form></div>`;showPage('register')}
 async function goPayment(e){
