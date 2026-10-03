@@ -143,3 +143,24 @@ body.lightbox-open{overflow:hidden}
   transform-origin:center;
 }
 .box-hero-media{overflow:hidden}
+
+
+/* Show complete rotated portrait photos in carousel — no face/body cropping */
+.box-hero-media img[src$="box-08.webp"],
+.box-hero-media img[src$="box-09.webp"],
+.box-hero-media img[src$="box-10.webp"],
+.box-hero-media img[src$="box-11.webp"],
+.box-hero-media img[src$="box-12.webp"],
+.box-hero-media img[src$="box-13.webp"],
+.box-hero-media img[src$="box-14.webp"],
+.box-hero-media img[src$="box-16.webp"],
+.box-hero-media img[src$="box-17.webp"],
+.box-hero-media img[src$="box-27.webp"]{
+  width:min(66vh,620px);
+  height:min(92vw,760px);
+  max-width:none;
+  object-fit:contain;
+  transform:rotate(-90deg);
+  transform-origin:center;
+  margin:auto;
+}
