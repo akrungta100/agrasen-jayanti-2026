@@ -101,7 +101,12 @@
 
 <section id="games" class="page">
   <div class="page-title"><span>20 GAMES</span><h2>Choose Your Game</h2></div>
-  <div class="filters"><input id="search" placeholder="🔎 Search a game..."><select id="date"><option value="">All dates</option><option value="2026-10-09">9 October</option><option value="2026-10-10">10 October</option></select></div>
+  <div class="filters">
+    <input id="search" placeholder="🔎 Search a game...">
+    <select id="date"><option value="">All dates</option><option value="2026-10-09">9 October</option><option value="2026-10-10">10 October</option></select>
+    <select id="category" aria-label="Filter by category"><option value="">All categories</option></select>
+    <select id="ageFilter" aria-label="Filter by age group"><option value="">All age groups</option></select>
+  </div>
   <div id="grid" class="game-grid"></div>
 </section>
 
