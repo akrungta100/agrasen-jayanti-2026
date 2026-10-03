@@ -102,3 +102,29 @@ document.addEventListener('keydown',e=>{
 });
 
 window.addEventListener('load',initGallery);
+
+
+// Box Cricket Tournament Highlights
+let boxPhotos=[], boxIndex=0, boxTimer=null, boxTouchX=0, boxFilter='All';
+async function loadBoxGallery(){
+  try{
+    const r=await fetch('box-cricket.json');
+    boxPhotos=await r.json();
+    renderBoxGrid(); updateBoxHero(); startBoxAutoPlay();
+    const viewport=document.querySelector('.box-hero-media');
+    viewport?.addEventListener('touchstart',e=>{boxTouchX=e.changedTouches[0].clientX},{passive:true});
+    viewport?.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-boxTouchX;if(Math.abs(dx)>45) dx<0?boxNext():boxPrev()},{passive:true});
+  }catch(e){console.error('Box Cricket gallery failed',e)}
+}
+function filteredBoxPhotos(){return boxFilter==='All'?boxPhotos:boxPhotos.filter(p=>p.category===boxFilter)}
+function filterBox(category,btn){boxFilter=category;document.querySelectorAll('.box-tabs button').forEach(b=>b.classList.remove('active'));btn?.classList.add('active');boxIndex=0;renderBoxGrid();updateBoxHero();startBoxAutoPlay()}
+function renderBoxGrid(){const grid=$('boxGrid');if(!grid)return;const list=filteredBoxPhotos();grid.innerHTML=list.map((p,i)=>`<button class="box-tile" onclick="setBoxIndex(${i})"><img loading="lazy" src="${p.src}" alt="${p.caption}"><span><b>${p.category}</b><small>${p.caption}</small></span></button>`).join('')}
+function updateBoxHero(){const list=filteredBoxPhotos();if(!list.length)return;boxIndex=(boxIndex+list.length)%list.length;const p=list[boxIndex];$('boxHeroImage').src=p.src;$('boxHeroImage').alt=p.caption;$('boxCategory').textContent=p.category;$('boxCaption').textContent=p.caption;$('boxSubcaption').textContent=p.subcaption;$('boxCounter').textContent=`${boxIndex+1} / ${list.length}`;const bar=$('boxProgressBar');if(bar)bar.style.width=`${((boxIndex+1)/list.length)*100}%`;const lb=$('boxLightboxImage');if(lb)lb.src=p.src;const ll=$('boxLightboxLabel');if(ll)ll.textContent=p.caption}
+function setBoxIndex(i){boxIndex=i;updateBoxHero();window.scrollTo({top:document.querySelector('.box-hero')?.offsetTop||0,behavior:'smooth'})}
+function boxNext(){const list=filteredBoxPhotos();if(!list.length)return;boxIndex=(boxIndex+1)%list.length;updateBoxHero()}
+function boxPrev(){const list=filteredBoxPhotos();if(!list.length)return;boxIndex=(boxIndex-1+list.length)%list.length;updateBoxHero()}
+function startBoxAutoPlay(){clearInterval(boxTimer);boxTimer=setInterval(boxNext,4500)}
+function openBoxLightbox(){const box=$('boxLightbox');if(!box)return;box.classList.add('open');box.setAttribute('aria-hidden','false');document.body.classList.add('lightbox-open');updateBoxHero()}
+function closeBoxLightbox(){const box=$('boxLightbox');if(!box)return;box.classList.remove('open');box.setAttribute('aria-hidden','true');document.body.classList.remove('lightbox-open')}
+document.addEventListener('keydown',e=>{const box=$('boxLightbox');if(!box?.classList.contains('open'))return;if(e.key==='Escape')closeBoxLightbox();if(e.key==='ArrowRight')boxNext();if(e.key==='ArrowLeft')boxPrev()});
+window.addEventListener('load',loadBoxGallery);

@@ -72,6 +72,11 @@
     </div>
   </div>
 
+  <div class="box-feature-card" onclick="showPage('box-cricket')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showPage('box-cricket')">
+    <div class="box-feature-copy"><span>🏏 TOURNAMENT HIGHLIGHTS</span><h2>Box Cricket Tournament</h2><p>Action • Trophies • Prize Moments • Community</p><button class="gold-btn" type="button" onclick="event.stopPropagation();showPage('box-cricket')">Open Highlights →</button></div>
+    <img src="box-cricket/box-01.webp" alt="Box Cricket trophy celebration">
+  </div>
+
   <div class="notice"><b>Simple registration</b><br>Choose any game, enter participant details and pay ₹50 per participant. There is no participant limit and no slot booking.</div>
 
   <div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
@@ -80,6 +85,18 @@
     <img id="lightboxImage" src="" alt="Event photo">
     <button class="lightbox-arrow lightbox-next" onclick="lightboxNext()" aria-label="Next photo">›</button>
   </div>
+</section>
+
+<section id="box-cricket" class="page box-page">
+  <div class="box-page-head"><button class="back" onclick="showPage('home')">← Home</button><span>🏏 BOX CRICKET TOURNAMENT 2026</span><h2>Tournament Highlights</h2><p>Relive the action, trophy moments and celebrations from Cineplexx Brajrajnagar.</p></div>
+  <div class="box-hero">
+    <div class="box-hero-media"><img id="boxHeroImage" src="box-cricket/box-01.webp" alt="Box Cricket Tournament highlight"><button class="box-arrow box-prev" onclick="boxPrev()" aria-label="Previous Box Cricket photo">‹</button><button class="box-arrow box-next" onclick="boxNext()" aria-label="Next Box Cricket photo">›</button><div class="box-progress"><span id="boxProgressBar"></span></div></div>
+    <div class="box-hero-copy"><div class="box-badge" id="boxCategory">Prize & Celebration</div><h3 id="boxCaption">Trophy presentation with confetti</h3><p id="boxSubcaption">The tournament finale comes alive</p><div class="box-hero-actions"><button class="red-btn" onclick="openBoxLightbox()">View Fullscreen</button><span id="boxCounter">1 / 27</span></div></div>
+  </div>
+  <div class="box-tabs" role="tablist" aria-label="Box Cricket photo categories"><button class="active" onclick="filterBox('All',this)">All Moments</button><button onclick="filterBox('Prize & Trophy',this)">🏆 Prizes</button><button onclick="filterBox('Game Highlights',this)">🏏 Action</button><button onclick="filterBox('Community',this)">🤝 Community</button></div>
+  <div class="box-section-title"><span>CURATED HIGHLIGHTS</span><h3>Prize-winning & celebration moments</h3><p>Our photo order puts the strongest trophy and finale moments first, followed by action and community memories.</p></div>
+  <div id="boxGrid" class="box-grid"></div>
+  <div class="box-lightbox" id="boxLightbox" aria-hidden="true"><button class="box-lightbox-close" onclick="closeBoxLightbox()" aria-label="Close">×</button><button class="box-lightbox-arrow box-lightbox-prev" onclick="boxPrev()" aria-label="Previous">‹</button><img id="boxLightboxImage" src="" alt="Box Cricket photo"><button class="box-lightbox-arrow box-lightbox-next" onclick="boxNext()" aria-label="Next">›</button><div class="box-lightbox-label" id="boxLightboxLabel"></div></div>
 </section>
 
 <section id="games" class="page">
@@ -115,6 +132,7 @@
 <nav class="bottom-nav">
   <button onclick="showPage('home')" id="nav-home">⌂<span>Home</span></button>
   <button onclick="showPage('games')" id="nav-games">🏆<span>Games</span></button>
+  <button onclick="showPage('box-cricket')" id="nav-box-cricket">🏏<span>Box Cricket</span></button>
   <button onclick="showPage('registrations')" id="nav-registrations">🎟️<span>My Games</span></button>
 </nav>
 </div>
