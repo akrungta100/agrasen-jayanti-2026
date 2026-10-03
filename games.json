@@ -6,13 +6,16 @@
     "date": "2026-10-09",
     "dateLabel": "9 October 2026",
     "time": "3:30 PM onwards",
-    "category": "All",
+    "category": "ALL",
     "age": "0–5 Years",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "0–5"
+    ]
   },
   {
     "id": "balance-balloon",
@@ -21,13 +24,16 @@
     "date": "2026-10-09",
     "dateLabel": "9 October 2026",
     "time": "3:30 PM onwards",
-    "category": "Boys / Girls",
+    "category": "BOYS / GIRLS",
     "age": "16 Years & Above",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "16+"
+    ]
   },
   {
     "id": "dhaga-compilation",
@@ -36,13 +42,16 @@
     "date": "2026-10-10",
     "dateLabel": "10 October 2026",
     "time": "5:30 PM onwards",
-    "category": "Married Women",
-    "age": "30 Above",
+    "category": "MARRIED WOMEN",
+    "age": "30 ABOVE",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "30+"
+    ]
   },
   {
     "id": "balance-cup",
@@ -51,13 +60,16 @@
     "date": "2026-10-10",
     "dateLabel": "10 October 2026",
     "time": "7:30 PM onwards",
-    "category": "Couple",
-    "age": "Any",
+    "category": "COUPLE",
+    "age": "ANY",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "Any"
+    ]
   },
   {
     "id": "straw-bottle",
@@ -66,13 +78,17 @@
     "date": "2026-10-09",
     "dateLabel": "9 October 2026",
     "time": "5:30 PM onwards",
-    "category": "Boys & Girls",
+    "category": "BOYS & GIRLS",
     "age": "16–30 & 30+",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "16–30",
+      "30+"
+    ]
   },
   {
     "id": "subway-surfer",
@@ -81,13 +97,17 @@
     "date": "2026-10-09",
     "dateLabel": "9 October 2026",
     "time": "5:30 PM onwards",
-    "category": "All",
+    "category": "ALL",
     "age": "5–15 & 15–30",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "5–15",
+      "15–30"
+    ]
   },
   {
     "id": "fill-bucket",
@@ -96,13 +116,16 @@
     "date": "2026-10-09",
     "dateLabel": "9 October 2026",
     "time": "7:30 PM onwards",
-    "category": "Married Boys",
-    "age": "Any",
+    "category": "MARRIED BOYS",
+    "age": "ALL",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "All"
+    ]
   },
   {
     "id": "puzzle",
@@ -111,13 +134,16 @@
     "date": "2026-10-10",
     "dateLabel": "10 October 2026",
     "time": "3:30 PM onwards",
-    "category": "All Girls & Boys Mixed",
-    "age": "0–5 Years",
+    "category": "ALL GIRLS AND BOYS MIXED",
+    "age": "0–5 YEARS",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "0–5"
+    ]
   },
   {
     "id": "guess-object",
@@ -126,13 +152,16 @@
     "date": "2026-10-10",
     "dateLabel": "10 October 2026",
     "time": "5:30 PM onwards",
-    "category": "All Girls & Boys Mixed",
-    "age": "0–5 Years",
+    "category": "ALL GIRLS AND BOYS MIXED",
+    "age": "0–5 YEARS",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "0–5"
+    ]
   },
   {
     "id": "balls-balti",
@@ -141,13 +170,16 @@
     "date": "2026-10-09",
     "dateLabel": "9 October 2026",
     "time": "7:30 PM onwards",
-    "category": "All",
-    "age": "0–5 Years",
+    "category": "ALL",
+    "age": "0–5 YEARS",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "0–5"
+    ]
   },
   {
     "id": "slow-scooty",
@@ -156,13 +188,16 @@
     "date": "2026-10-10",
     "dateLabel": "10 October 2026",
     "time": "3:30 PM onwards",
-    "category": "Girls",
-    "age": "18 Above",
+    "category": "GIRLS",
+    "age": "18 ABOVE",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "18+"
+    ]
   },
   {
     "id": "balance-cycle",
@@ -171,13 +206,16 @@
     "date": "2026-10-10",
     "dateLabel": "10 October 2026",
     "time": "3:30 PM onwards",
-    "category": "Boys / Girls",
-    "age": "10–15 Years",
+    "category": "BOYS / GIRLS",
+    "age": "10–15 YEARS",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "10–15"
+    ]
   },
   {
     "id": "penguin-run",
@@ -186,13 +224,16 @@
     "date": "2026-10-10",
     "dateLabel": "10 October 2026",
     "time": "7:30 PM onwards",
-    "category": "Boys / Girls",
-    "age": "10–15 Years",
+    "category": "BOYS / GIRLS",
+    "age": "10–15 YEARS",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "10–15"
+    ]
   },
   {
     "id": "slow-bike",
@@ -201,13 +242,16 @@
     "date": "2026-10-10",
     "dateLabel": "10 October 2026",
     "time": "3:30 PM onwards",
-    "category": "Boys",
-    "age": "18 Above",
+    "category": "BOYS",
+    "age": "18 ABOVE",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "18+"
+    ]
   },
   {
     "id": "karchi-chalao",
@@ -216,13 +260,16 @@
     "date": "2026-10-09",
     "dateLabel": "9 October 2026",
     "time": "3:30 PM onwards",
-    "category": "Married Women",
+    "category": "MARRIED WOMEN",
     "age": "Not specified",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "Not specified"
+    ]
   },
   {
     "id": "manjulika",
@@ -231,13 +278,16 @@
     "date": "2026-10-09",
     "dateLabel": "9 October 2026",
     "time": "5:30 PM onwards",
-    "category": "Girls & Married Women",
-    "age": "Below 30",
+    "category": "GIRLS & MARRIED WOMEN",
+    "age": "BELOW 30",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "Below 30"
+    ]
   },
   {
     "id": "squid-game",
@@ -246,13 +296,16 @@
     "date": "2026-10-10",
     "dateLabel": "10 October 2026",
     "time": "5:30 PM onwards",
-    "category": "All",
+    "category": "ALL",
     "age": "16+",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "16+"
+    ]
   },
   {
     "id": "balloon-back",
@@ -261,13 +314,16 @@
     "date": "2026-10-09",
     "dateLabel": "9 October 2026",
     "time": "7:30 PM onwards",
-    "category": "Couple",
-    "age": "Any",
+    "category": "COUPLE",
+    "age": "ALL",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "All"
+    ]
   },
   {
     "id": "pen-bottle",
@@ -276,13 +332,16 @@
     "date": "2026-10-10",
     "dateLabel": "10 October 2026",
     "time": "7:30 PM onwards",
-    "category": "Partner",
+    "category": "PARTNER",
     "age": "18+",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "18+"
+    ]
   },
   {
     "id": "rubber-bowl",
@@ -291,12 +350,15 @@
     "date": "2026-10-10",
     "dateLabel": "10 October 2026",
     "time": "7:30 PM onwards",
-    "category": "Married Women",
-    "age": "All",
+    "category": "MARRIED WOMEN",
+    "age": "ALL",
     "venue": "Kalyan Mandap, Brajrajnagar",
     "fee": 50,
     "capacity": null,
     "slotDurationMinutes": null,
-    "registrationMode": "open"
+    "registrationMode": "open",
+    "ageGroups": [
+      "All"
+    ]
   }
 ]
