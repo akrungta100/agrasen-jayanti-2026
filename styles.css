@@ -67,7 +67,7 @@ body.lightbox-open{overflow:hidden}
   max-width:none;
   margin:auto;
   object-fit:contain;
-  transform:rotate(90deg);
+  transform:rotate(-90deg);
 }
 
 .box-grid img[src$="box-08.webp"],
@@ -84,7 +84,7 @@ body.lightbox-open{overflow:hidden}
   aspect-ratio:3/4;
   margin:12.5% auto;
   object-fit:cover;
-  transform:rotate(90deg);
+  transform:rotate(-90deg);
 }
 
 @media(max-width:700px){
