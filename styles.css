@@ -45,6 +45,6 @@ body.lightbox-open{overflow:hidden}
 .box-grid img[src$="box-27.webp"]{
 aspect-ratio:4/5;
 object-fit:cover;
-transform:rotate(90deg);  
+transform:rotate(-90deg);
   
 
