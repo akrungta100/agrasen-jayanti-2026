@@ -85,3 +85,14 @@ transform:rotate(-90deg);
 .box-hero-media img[src*="box-27.webp"]{
   transform:rotate(90deg);
 }
+
+
+/* Contact help card */
+.contact-card{margin:18px 0;padding:22px;border-radius:20px;background:#fff;border:1px solid #eadfd6;box-shadow:0 8px 24px rgba(69,36,24,.08)}
+.contact-card>span{font-size:11px;font-weight:800;letter-spacing:1.5px;color:#9a6b3f}
+.contact-card h2{margin:5px 0 8px}
+.contact-card p{margin:0 0 10px;color:#765f57}
+.contact-card>b{display:block;margin-bottom:12px}
+.contact-actions{display:flex;gap:10px;flex-wrap:wrap}
+.contact-actions a{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-weight:700;padding:12px 14px;border-radius:12px;background:#8d1424;color:#fff}
+@media(max-width:560px){.contact-actions{flex-direction:column}.contact-actions a{width:100%;box-sizing:border-box}}
