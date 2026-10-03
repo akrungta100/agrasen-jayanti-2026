@@ -46,5 +46,19 @@ body.lightbox-open{overflow:hidden}
 aspect-ratio:4/5;
 object-fit:cover;
 transform:rotate(-90deg);
-  
+/* Selected Box Cricket carousel photos - portrait */
+.box-hero-media img[src*="box-08.webp"],
+.box-hero-media img[src*="box-09.webp"],
+.box-hero-media img[src*="box-10.webp"],
+.box-hero-media img[src*="box-11.webp"],
+.box-hero-media img[src*="box-12.webp"],
+.box-hero-media img[src*="box-13.webp"],
+.box-hero-media img[src*="box-14.webp"],
+.box-hero-media img[src*="box-16.webp"],
+.box-hero-media img[src*="box-17.webp"],
+.box-hero-media img[src*="box-27.webp"] {
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  transform: rotate(-90deg);
+}  
 
