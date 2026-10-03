@@ -96,3 +96,14 @@ transform:rotate(-90deg);
 .contact-actions{display:flex;gap:10px;flex-wrap:wrap}
 .contact-actions a{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-weight:700;padding:12px 14px;border-radius:12px;background:#8d1424;color:#fff}
 @media(max-width:560px){.contact-actions{flex-direction:column}.contact-actions a{width:100%;box-sizing:border-box}}
+
+
+/* Refined compact contact card */
+.contact-card{margin:14px 0;padding:15px 16px;border-radius:16px;background:#fffdf9;border:1px solid #eadfd6;box-shadow:0 5px 16px rgba(69,36,24,.06);font-family:inherit}
+.contact-card>span{display:block;font-size:9px;font-weight:800;letter-spacing:1.4px;color:#a06f3e;margin-bottom:3px}
+.contact-card h2{font-family:Georgia,"Times New Roman",serif;font-size:19px;line-height:1.15;margin:0 0 5px;color:#42151a}
+.contact-card p{font-size:12px;line-height:1.45;margin:0 0 7px;color:#765f57}
+.contact-card>b{display:block;font-family:Georgia,"Times New Roman",serif;font-size:14px;color:#42151a;margin-bottom:9px}
+.contact-actions{display:flex;gap:7px;flex-wrap:wrap}
+.contact-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:36px;box-sizing:border-box;text-decoration:none;font-size:11px;line-height:1.2;font-weight:700;padding:8px 11px;border-radius:10px;background:#8d1424;color:#fff}
+@media(max-width:560px){.contact-card{padding:14px}.contact-actions{display:grid;grid-template-columns:1fr}.contact-actions a{width:100%;min-height:35px}}
