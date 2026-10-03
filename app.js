@@ -33,3 +33,72 @@ async function startRazorpayPayment(){
 function loadRazorpay(){return new Promise((resolve,reject)=>{if(window.Razorpay)return resolve();const s=document.createElement('script');s.src='https://checkout.razorpay.com/v1/checkout.js';s.onload=resolve;s.onerror=()=>reject(new Error('Could not load Razorpay Checkout.'));document.head.appendChild(s)})}
 function completeRegistration(payment,verified){let code='AGR26-'+Math.floor(100000+Math.random()*900000);let r={code,game:selected.name,gameId:selected.id,name:$('pname').value,mobile:$('mobile').value,age:$('age').value,guardian:$('guardian').value,date:selected.dateLabel,time:selected.time,fee:50,paymentId:verified.paymentId,orderId:verified.orderId};registrations.unshift(r);localStorage.setItem('agrasen_regs',JSON.stringify(registrations));$('successContent').innerHTML=`<div class="success-card"><div class="check">✓</div><h2>Registration Confirmed</h2><p>Payment verified successfully</p><div class="reg-code">${code}</div><div class="ticket"><b>${r.game}</b><br>Participant: ${r.name}<br>Mobile: ${r.mobile}<br>Age: ${r.age}<br>Date: ${r.date}<br>Time: ${r.time}<br><strong>Paid: ₹50</strong><br><small>Razorpay Payment: ${r.paymentId}</small></div><button class="red-btn" onclick="showPage('registrations')">View My Registrations</button></div>`;showPage('success')}
 function renderRegistrations(){if(!registrations.length){$('registrationList').innerHTML='<div class="empty">No registrations yet.<br>Choose a game and register for ₹50.</div>';return}$('registrationList').innerHTML=registrations.map(r=>`<div class="ticket"><b>${r.game}</b><br><span class="reg-code">${r.code}</span><br>👤 ${r.name} • ${r.age} years<br>📅 ${r.date} • ${r.time}<br>💰 ₹${r.fee} paid</div>`).join('')}
+
+
+const galleryImages=[
+  "assets/gallery/gallery-01.jpg",
+  "assets/gallery/gallery-02.jpg",
+  "assets/gallery/gallery-03.jpg",
+  "assets/gallery/gallery-04.jpg",
+  "assets/gallery/gallery-05.jpg",
+  "assets/gallery/gallery-06.jpg",
+  "assets/gallery/gallery-07.jpg",
+  "assets/gallery/gallery-08.jpg",
+  "assets/gallery/gallery-09.jpg"
+];
+let galleryIndex=0, galleryTimer=null, galleryTouchX=0;
+
+function initGallery(){
+  const dots=$('galleryDots');
+  if(!dots) return;
+  dots.innerHTML=galleryImages.map((_,i)=>`<button class="gallery-dot${i===0?' active':''}" onclick="setGallery(${i})" aria-label="Go to photo ${i+1}"></button>`).join('');
+  setGallery(0);
+  const viewport=document.querySelector('.gallery-viewport');
+  viewport?.addEventListener('touchstart',e=>{galleryTouchX=e.changedTouches[0].clientX},{passive:true});
+  viewport?.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-galleryTouchX;
+    if(Math.abs(dx)>45) dx<0?galleryNext():galleryPrev();
+  },{passive:true});
+  clearInterval(galleryTimer);
+  galleryTimer=setInterval(galleryNext,3500);
+}
+
+function setGallery(i){
+  if(!galleryImages.length) return;
+  galleryIndex=(i+galleryImages.length)%galleryImages.length;
+  const track=$('galleryTrack');
+  if(track) track.style.transform=`translateX(-${galleryIndex*100}%)`;
+  document.querySelectorAll('.gallery-dot').forEach((d,n)=>d.classList.toggle('active',n===galleryIndex));
+}
+
+function galleryNext(){setGallery(galleryIndex+1)}
+function galleryPrev(){setGallery(galleryIndex-1)}
+
+function openGallery(i){
+  galleryIndex=i;
+  const box=$('galleryLightbox'), img=$('lightboxImage');
+  if(!box||!img) return;
+  img.src=galleryImages[galleryIndex];
+  box.classList.add('open');
+  box.setAttribute('aria-hidden','false');
+  document.body.classList.add('lightbox-open');
+}
+function closeGallery(){
+  const box=$('galleryLightbox');
+  if(!box) return;
+  box.classList.remove('open');
+  box.setAttribute('aria-hidden','true');
+  document.body.classList.remove('lightbox-open');
+}
+function updateLightbox(){const img=$('lightboxImage'); if(img) img.src=galleryImages[galleryIndex]}
+function lightboxNext(){galleryIndex=(galleryIndex+1)%galleryImages.length;updateLightbox()}
+function lightboxPrev(){galleryIndex=(galleryIndex-1+galleryImages.length)%galleryImages.length;updateLightbox()}
+document.addEventListener('keydown',e=>{
+  const box=$('galleryLightbox');
+  if(!box?.classList.contains('open')) return;
+  if(e.key==='Escape') closeGallery();
+  if(e.key==='ArrowRight') lightboxNext();
+  if(e.key==='ArrowLeft') lightboxPrev();
+});
+
+window.addEventListener('load',initGallery);

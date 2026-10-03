@@ -28,7 +28,58 @@
   </div>
   <div class="section-head"><div><span>PLAY • LAUGH • CELEBRATE</span><h2>Games for Everyone</h2></div><button onclick="showPage('games')">View all</button></div>
   <div id="featured" class="horizontal"></div>
+
+  <div class="gallery-section">
+    <div class="section-head">
+      <div><span>MEMORIES • MOMENTS • MAHOTSAV</span><h2>Event Gallery</h2></div>
+    </div>
+    <div class="gallery-card" id="gallery">
+      <div class="gallery-viewport">
+        <div class="gallery-track" id="galleryTrack">
+          <button class="gallery-slide" type="button" onclick="openGallery(0)" aria-label="Open event photo 1">
+            <img src="assets/gallery/gallery-01.jpg" alt="Agrasen badminton tournament winners">
+          </button>
+          <button class="gallery-slide" type="button" onclick="openGallery(1)" aria-label="Open event photo 2">
+            <img src="assets/gallery/gallery-02.jpg" alt="Agrasen badminton tournament winners">
+          </button>
+          <button class="gallery-slide" type="button" onclick="openGallery(2)" aria-label="Open event photo 3">
+            <img src="assets/gallery/gallery-03.jpg" alt="Event participants at the sports ground">
+          </button>
+          <button class="gallery-slide" type="button" onclick="openGallery(3)" aria-label="Open event photo 4">
+            <img src="assets/gallery/gallery-04.jpg" alt="Audience enjoying the event">
+          </button>
+          <button class="gallery-slide" type="button" onclick="openGallery(4)" aria-label="Open event photo 5">
+            <img src="assets/gallery/gallery-05.jpg" alt="Participants at the sports event">
+          </button>
+          <button class="gallery-slide" type="button" onclick="openGallery(5)" aria-label="Open event photo 6">
+            <img src="assets/gallery/gallery-06.jpg" alt="Prize presentation at the event">
+          </button>
+          <button class="gallery-slide" type="button" onclick="openGallery(6)" aria-label="Open event photo 7">
+            <img src="assets/gallery/gallery-07.jpg" alt="Participants gathered at the sports event">
+          </button>
+          <button class="gallery-slide" type="button" onclick="openGallery(7)" aria-label="Open event photo 8">
+            <img src="assets/gallery/gallery-08.jpg" alt="Audience at the sports event">
+          </button>
+          <button class="gallery-slide" type="button" onclick="openGallery(8)" aria-label="Open event photo 9">
+            <img src="assets/gallery/gallery-09.jpg" alt="Lamp lighting ceremony">
+          </button>
+        </div>
+        <button class="gallery-arrow gallery-prev" onclick="galleryPrev()" aria-label="Previous photo">‹</button>
+        <button class="gallery-arrow gallery-next" onclick="galleryNext()" aria-label="Next photo">›</button>
+      </div>
+      <div class="gallery-dots" id="galleryDots"></div>
+      <div class="gallery-caption"><b>Agrasen Jayanti Mahotsav 2026</b><span>Swipe to explore the memories</span></div>
+    </div>
+  </div>
+
   <div class="notice"><b>Simple registration</b><br>Choose any game, enter participant details and pay ₹50 per participant. There is no participant limit and no slot booking.</div>
+
+  <div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
+    <button class="lightbox-close" onclick="closeGallery()" aria-label="Close">×</button>
+    <button class="lightbox-arrow lightbox-prev" onclick="lightboxPrev()" aria-label="Previous photo">‹</button>
+    <img id="lightboxImage" src="" alt="Event photo">
+    <button class="lightbox-arrow lightbox-next" onclick="lightboxNext()" aria-label="Next photo">›</button>
+  </div>
 </section>
 
 <section id="games" class="page">
