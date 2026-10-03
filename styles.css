@@ -164,3 +164,23 @@ body.lightbox-open{overflow:hidden}
   transform-origin:center;
   margin:auto;
 }
+
+
+/* Final portrait carousel fit: fill width without cropping people */
+.box-hero-media img[src$="box-08.webp"],
+.box-hero-media img[src$="box-09.webp"],
+.box-hero-media img[src$="box-10.webp"],
+.box-hero-media img[src$="box-11.webp"],
+.box-hero-media img[src$="box-12.webp"],
+.box-hero-media img[src$="box-13.webp"],
+.box-hero-media img[src$="box-14.webp"],
+.box-hero-media img[src$="box-16.webp"],
+.box-hero-media img[src$="box-17.webp"],
+.box-hero-media img[src$="box-27.webp"]{
+  width:100%;
+  height:100%;
+  max-width:none;
+  margin:0;
+  object-fit:contain;
+  transform:none;
+}
