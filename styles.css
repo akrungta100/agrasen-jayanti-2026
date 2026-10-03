@@ -65,20 +65,23 @@ transform:rotate(-90deg);
   justify-content: center;
   overflow: hidden;
 }
-
-.box-hero-media:has(img[src*="box-08.webp"]) img,
-.box-hero-media:has(img[src*="box-09.webp"]) img,
-.box-hero-media:has(img[src*="box-10.webp"]) img,
-.box-hero-media:has(img[src*="box-11.webp"]) img,
-.box-hero-media:has(img[src*="box-12.webp"]) img,
-.box-hero-media:has(img[src*="box-13.webp"]) img,
-.box-hero-media:has(img[src*="box-14.webp"]) img,
-.box-hero-media:has(img[src*="box-16.webp"]) img,
-.box-hero-media:has(img[src*="box-17.webp"]) img,
-.box-hero-media:has(img[src*="box-27.webp"]) img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: rotate(-90deg);
+/* Portrait carousel photos */
+.box-hero-media img{
+  width:auto;
+  height:100%;
+  max-width:none;
+  object-fit:contain;
 }
 
+.box-hero-media img[src*="box-08.webp"],
+.box-hero-media img[src*="box-09.webp"],
+.box-hero-media img[src*="box-10.webp"],
+.box-hero-media img[src*="box-11.webp"],
+.box-hero-media img[src*="box-12.webp"],
+.box-hero-media img[src*="box-13.webp"],
+.box-hero-media img[src*="box-14.webp"],
+.box-hero-media img[src*="box-16.webp"],
+.box-hero-media img[src*="box-17.webp"],
+.box-hero-media img[src*="box-27.webp"]{
+  transform:rotate(90deg);
+}
