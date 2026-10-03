@@ -47,18 +47,38 @@ aspect-ratio:4/5;
 object-fit:cover;
 transform:rotate(-90deg);
 /* Selected Box Cricket carousel photos - portrait */
-.box-hero-media img[src*="box-08.webp"],
-.box-hero-media img[src*="box-09.webp"],
-.box-hero-media img[src*="box-10.webp"],
-.box-hero-media img[src*="box-11.webp"],
-.box-hero-media img[src*="box-12.webp"],
-.box-hero-media img[src*="box-13.webp"],
-.box-hero-media img[src*="box-14.webp"],
-.box-hero-media img[src*="box-16.webp"],
-.box-hero-media img[src*="box-17.webp"],
-.box-hero-media img[src*="box-27.webp"] {
+.box-hero-media:has(img[src*="box-08.webp"]),
+.box-hero-media:has(img[src*="box-09.webp"]),
+.box-hero-media:has(img[src*="box-10.webp"]),
+.box-hero-media:has(img[src*="box-11.webp"]),
+.box-hero-media:has(img[src*="box-12.webp"]),
+.box-hero-media:has(img[src*="box-13.webp"]),
+.box-hero-media:has(img[src*="box-14.webp"]),
+.box-hero-media:has(img[src*="box-16.webp"]),
+.box-hero-media:has(img[src*="box-17.webp"]),
+.box-hero-media:has(img[src*="box-27.webp"]) {
   aspect-ratio: 4 / 5;
+  height: auto;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.box-hero-media:has(img[src*="box-08.webp"]) img,
+.box-hero-media:has(img[src*="box-09.webp"]) img,
+.box-hero-media:has(img[src*="box-10.webp"]) img,
+.box-hero-media:has(img[src*="box-11.webp"]) img,
+.box-hero-media:has(img[src*="box-12.webp"]) img,
+.box-hero-media:has(img[src*="box-13.webp"]) img,
+.box-hero-media:has(img[src*="box-14.webp"]) img,
+.box-hero-media:has(img[src*="box-16.webp"]) img,
+.box-hero-media:has(img[src*="box-17.webp"]) img,
+.box-hero-media:has(img[src*="box-27.webp"]) img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   transform: rotate(-90deg);
-}  
+}
 
