@@ -73,6 +73,12 @@
   </div>
 
 
+
+  <div class="jayanti-feature-card" onclick="showPage('jayanti-gallery')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showPage('jayanti-gallery')">
+    <img src="aj-085.webp" alt="Agrasen Jayanti celebration">
+    <div class="jayanti-feature-copy"><span>CELEBRATION • COMMUNITY • MEMORIES</span><h2>Agrasen Jayanti Photo Collection</h2><p>85 moments from the celebration, ceremonies and community gatherings.</p><button class="gold-btn" type="button" onclick="event.stopPropagation();showPage('jayanti-gallery')">View 85 Photos →</button></div>
+  </div>
+
   <div class="legacy-feature-card" onclick="showPage('legacy-cricket')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showPage('legacy-cricket')">
     <div class="legacy-feature-copy"><span>🏏 COMMUNITY • HERITAGE • CRICKET</span><h2>Agrasen Legacy Cricket</h2><p>26 memories from the ground, ceremony and celebrations.</p><button class="gold-btn" type="button" onclick="event.stopPropagation();showPage('legacy-cricket')">Open Gallery →</button></div>
     <img src="agl-02.webp" alt="Agrasen Legacy Cricket gathering">
@@ -104,6 +110,15 @@
   </div>
 </section>
 
+
+
+<section id="jayanti-gallery" class="page jayanti-page">
+  <div class="jayanti-page-head"><button class="back" onclick="showPage('home')">← Home</button><span>AGRASEN JAYANTI • PHOTO COLLECTION</span><h2>Celebration Memories</h2><p>85 photos from Agrasen Jayanti — tap any photo for fullscreen view.</p></div>
+  <div class="jayanti-hero"><img id="jayantiHeroImage" src="aj-085.webp" alt="Agrasen Jayanti photo"><button class="jayanti-arrow jayanti-prev" onclick="jayantiPrev()" aria-label="Previous photo">‹</button><button class="jayanti-arrow jayanti-next" onclick="jayantiNext()" aria-label="Next photo">›</button><div class="jayanti-counter" id="jayantiCounter">1 / 85</div></div>
+  <div class="jayanti-section-title"><span>85 MEMORIES</span><h3>Agrasen Jayanti 2026</h3><p>Swipe the featured photo or browse the complete gallery below.</p></div>
+  <div id="jayantiGrid" class="jayanti-grid"></div>
+  <div class="jayanti-lightbox" id="jayantiLightbox" aria-hidden="true"><button class="jayanti-lightbox-close" onclick="closeJayantiLightbox()" aria-label="Close">×</button><button class="jayanti-lightbox-arrow jayanti-lightbox-prev" onclick="jayantiPrev()" aria-label="Previous">‹</button><img id="jayantiLightboxImage" src="" alt="Agrasen Jayanti photo"><button class="jayanti-lightbox-arrow jayanti-lightbox-next" onclick="jayantiNext()" aria-label="Next">›</button><div class="jayanti-lightbox-label" id="jayantiLightboxLabel"></div></div>
+</section>
 
 <section id="legacy-cricket" class="page legacy-page">
   <div class="legacy-page-head"><button class="back" onclick="showPage('home')">← Home</button><span>🏏 AGRASEN LEGACY CRICKET</span><h2>Legacy Cricket Memories</h2><p>Ceremony • Cricket • Trophies • Community</p></div>
