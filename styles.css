@@ -243,3 +243,12 @@ body.lightbox-open{overflow:hidden}
 .legacy-videos{margin:22px 0}.legacy-videos h3{margin:0 0 12px}.legacy-video-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.legacy-video-grid video{width:100%;max-height:520px;background:#000;border-radius:18px;display:block}@media(max-width:700px){.legacy-video-grid{grid-template-columns:1fr}}
 
 .legacy-winning-video{margin:28px 0;border-radius:28px;overflow:hidden;background:#8f0e24;color:#fff;box-shadow:0 12px 30px rgba(80,20,20,.16)}.legacy-winning-copy{padding:24px 28px}.legacy-winning-copy span{font-size:12px;font-weight:900;letter-spacing:2px;color:#ffd36a}.legacy-winning-copy h2{margin:8px 0;font-family:Georgia,serif;font-size:34px}.legacy-winning-copy p{margin:0;font-weight:600;opacity:.94}.legacy-winning-video video{display:block;width:100%;max-height:620px;object-fit:cover;background:#000}@media(max-width:700px){.legacy-winning-video{margin:22px 0;border-radius:24px}.legacy-winning-copy{padding:20px}.legacy-winning-copy h2{font-size:30px}.legacy-winning-video video{max-height:520px}}
+
+/* Compact home Winning Moments card */
+.legacy-winning-video{margin:20px 0 28px!important;border-radius:24px!important;overflow:hidden!important;background:#8f0e24!important;color:#fff!important;box-shadow:0 10px 24px rgba(80,20,20,.16)!important}
+.legacy-winning-copy{padding:18px 20px 14px!important}
+.legacy-winning-copy span{font-size:11px!important;letter-spacing:1.5px!important}
+.legacy-winning-copy h2{margin:6px 0!important;font-size:28px!important;line-height:1.05!important;color:#fff!important}
+.legacy-winning-copy p{margin:0!important;font-size:14px!important;line-height:1.4!important;color:#fff!important}
+.legacy-winning-video video{display:block!important;width:100%!important;height:auto!important;aspect-ratio:16/9!important;max-height:none!important;object-fit:cover!important;background:#000!important}
+@media(max-width:700px){.legacy-winning-video{margin:16px 0 24px!important;border-radius:20px!important}.legacy-winning-copy{padding:16px 18px 12px!important}.legacy-winning-copy h2{font-size:26px!important}.legacy-winning-video video{aspect-ratio:16/9!important;height:auto!important;max-height:none!important;object-fit:cover!important}}
