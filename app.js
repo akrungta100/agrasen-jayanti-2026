@@ -150,7 +150,10 @@ window.addEventListener('load',loadBoxGallery);
 
 
 // Agrasen Legacy Cricket Gallery
-const legacyPhotos=Array.from({length:26},(_,i)=>({src:`agl-${String(i+1).padStart(2,'0')}.webp`,caption:`Agrasen Legacy Cricket • Photo ${i+1}`}));
+const legacyPhotos=[
+  ...Array.from({length:85},(_,i)=>({src:`aj-${String(i+1).padStart(3,'0')}.webp`,caption:`Agrasen Legacy Cricket 2026 • Photo ${i+1}`})),
+  ...Array.from({length:26},(_,i)=>({src:`agl-${String(i+1).padStart(2,'0')}.webp`,caption:`Agrasen Legacy Cricket 2026 • Photo ${i+86}`}))
+];
 let legacyIndex=0, legacyTimer=null, legacyTouchX=0;
 function initLegacyGallery(){renderLegacyGrid();updateLegacyHero();const hero=document.querySelector('.legacy-hero');hero?.addEventListener('touchstart',e=>{legacyTouchX=e.changedTouches[0].clientX},{passive:true});hero?.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-legacyTouchX;if(Math.abs(dx)>45)dx<0?legacyNext():legacyPrev()},{passive:true});clearInterval(legacyTimer);legacyTimer=setInterval(legacyNext,4500)}
 function renderLegacyGrid(){const grid=$('legacyGrid');if(!grid)return;grid.innerHTML=legacyPhotos.map((p,i)=>`<button class="legacy-tile" onclick="openLegacyPhoto(${i})"><img loading="lazy" src="${p.src}" alt="${p.caption}"></button>`).join('')}
@@ -161,20 +164,3 @@ function openLegacyPhoto(i){legacyIndex=i;updateLegacyHero();const box=$('legacy
 function closeLegacyLightbox(){const box=$('legacyLightbox');if(!box)return;box.classList.remove('open');box.setAttribute('aria-hidden','true');document.body.classList.remove('lightbox-open')}
 document.addEventListener('keydown',e=>{const box=$('legacyLightbox');if(!box?.classList.contains('open'))return;if(e.key==='Escape')closeLegacyLightbox();if(e.key==='ArrowRight')legacyNext();if(e.key==='ArrowLeft')legacyPrev()});
 window.addEventListener('load',initLegacyGallery);
-
-
-// Agrasen Jayanti 85-photo collection
-const jayantiPhotos=Array.from({length:85},(_,i)=>({src:`aj-${String(i+1).padStart(3,'0')}.webp`,caption:`Agrasen Jayanti 2026 • Photo ${i+1}`}));
-// Start with a strong group/trophy moment while keeping every photo in the gallery.
-const jayantiHeroOrder=[84,...Array.from({length:84},(_,i)=>i)];
-let jayantiPos=0,jayantiTimer=null,jayantiTouchX=0;
-function currentJayantiIndex(){return jayantiHeroOrder[jayantiPos]}
-function initJayantiGallery(){renderJayantiGrid();updateJayantiHero();const hero=document.querySelector('.jayanti-hero');hero?.addEventListener('touchstart',e=>{jayantiTouchX=e.changedTouches[0].clientX},{passive:true});hero?.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-jayantiTouchX;if(Math.abs(dx)>45)dx<0?jayantiNext():jayantiPrev()},{passive:true});clearInterval(jayantiTimer);jayantiTimer=setInterval(jayantiNext,5000)}
-function renderJayantiGrid(){const grid=$('jayantiGrid');if(!grid)return;grid.innerHTML=jayantiPhotos.map((p,i)=>`<button class="jayanti-tile" onclick="openJayantiPhoto(${i})"><img loading="lazy" src="${p.src}" alt="${p.caption}"></button>`).join('')}
-function updateJayantiHero(){jayantiPos=(jayantiPos+jayantiHeroOrder.length)%jayantiHeroOrder.length;const i=currentJayantiIndex(),p=jayantiPhotos[i];const hero=$('jayantiHeroImage');if(hero){hero.src=p.src;hero.alt=p.caption}const counter=$('jayantiCounter');if(counter)counter.textContent=`${jayantiPos+1} / ${jayantiPhotos.length}`;const lb=$('jayantiLightboxImage');if(lb)lb.src=p.src;const label=$('jayantiLightboxLabel');if(label)label.textContent=p.caption}
-function jayantiNext(){jayantiPos=(jayantiPos+1)%jayantiHeroOrder.length;updateJayantiHero()}
-function jayantiPrev(){jayantiPos=(jayantiPos-1+jayantiHeroOrder.length)%jayantiHeroOrder.length;updateJayantiHero()}
-function openJayantiPhoto(i){jayantiPos=jayantiHeroOrder.indexOf(i);if(jayantiPos<0)jayantiPos=0;updateJayantiHero();const box=$('jayantiLightbox');if(!box)return;box.classList.add('open');box.setAttribute('aria-hidden','false');document.body.classList.add('lightbox-open')}
-function closeJayantiLightbox(){const box=$('jayantiLightbox');if(!box)return;box.classList.remove('open');box.setAttribute('aria-hidden','true');document.body.classList.remove('lightbox-open')}
-document.addEventListener('keydown',e=>{const box=$('jayantiLightbox');if(!box?.classList.contains('open'))return;if(e.key==='Escape')closeJayantiLightbox();if(e.key==='ArrowRight')jayantiNext();if(e.key==='ArrowLeft')jayantiPrev()});
-window.addEventListener('load',initJayantiGallery);
