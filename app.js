@@ -164,3 +164,10 @@ function openLegacyPhoto(i){legacyIndex=i;updateLegacyHero();const box=$('legacy
 function closeLegacyLightbox(){const box=$('legacyLightbox');if(!box)return;box.classList.remove('open');box.setAttribute('aria-hidden','true');document.body.classList.remove('lightbox-open')}
 document.addEventListener('keydown',e=>{const box=$('legacyLightbox');if(!box?.classList.contains('open'))return;if(e.key==='Escape')closeLegacyLightbox();if(e.key==='ArrowRight')legacyNext();if(e.key==='ArrowLeft')legacyPrev()});
 window.addEventListener('load',initLegacyGallery);
+
+
+// Home carousel for Agrasen Legacy Cricket 2026
+let legacyHomeIndex=0;
+function updateLegacyHome(){const img=$('legacyHomeImage'),count=$('legacyHomeCounter');if(!img||!legacyPhotos.length)return;const p=legacyPhotos[legacyHomeIndex];img.src=p.src;img.alt=p.caption;if(count)count.textContent=`${legacyHomeIndex+1} / ${legacyPhotos.length}`}
+function legacyHomeNext(){legacyHomeIndex=(legacyHomeIndex+1)%legacyPhotos.length;updateLegacyHome()}
+window.addEventListener('load',()=>{updateLegacyHome();setInterval(legacyHomeNext,3500)});
