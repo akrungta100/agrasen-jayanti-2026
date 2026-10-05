@@ -48,13 +48,13 @@ function completePayURegistration(r){
   registrations=registrations.filter(x=>x.orderId!==r.orderId); registrations.unshift(r);
   localStorage.setItem('agrasen_regs',JSON.stringify(registrations));
   localStorage.removeItem('agrasen_pending');
-  $('successContent').innerHTML=`<div class="success-card"><div class="check">✓</div><h2>Registration Confirmed</h2><p>PayU payment verified successfully</p><div class="reg-code">${r.code}</div><div class="ticket"><b>${r.game}</b><br>Participant: ${r.name}<br>Mobile: ${r.mobile}<br>Age: ${r.age}<br>Date: ${r.date}<br>Time: ${r.time}<br><strong>Paid: ₹50</strong><br><small>PayU Payment: ${r.paymentId}</small></div><p style="font-size:12px">Keep this registration code. On another phone, use it with your mobile number in My Games to see all your paid games.</p><button class="red-btn" onclick="showPage('registrations')">View My Registrations</button></div>`;showPage('success');
+  $('successContent').innerHTML=`<div class="success-card"><div class="check">✓</div><h2>Registration Confirmed</h2><p>PayU payment verified successfully</p><div class="reg-code">${r.code}</div><div class="ticket"><b>${r.game}</b><br>Participant: ${r.name}<br>Mobile: ${r.mobile}<br>Age: ${r.age}<br>Date: ${r.date}<br>Time: ${r.time}<br><strong>Paid: ₹50</strong><br><small>PayU Payment: ${r.paymentId}</small></div><p style="font-size:12px">On another phone, open My Games and verify the registration email to see all your paid games.</p><button class="red-btn" onclick="showPage('registrations')">View My Registrations</button></div>`;showPage('success');
 }
 async function handlePayUReturn(){
   const q=new URLSearchParams(location.search), result=q.get('payu'); if(result!=='return')return;
   const txnid=q.get('txnid')||''; history.replaceState({},'',location.pathname);
   const pending=JSON.parse(localStorage.getItem('agrasen_pending')||'null');
-  if(!pending||pending.txnid!==txnid){$('paymentContent').innerHTML='<div class="payment-card"><h2>Payment verification needed</h2><p>We could not match this payment return to this browser. Open My Games with your mobile number and registration code, or contact support if payment was deducted.</p><button class="red-btn" onclick="showPage(\'registrations\')">Open My Games</button></div>';showPage('payment');return}
+  if(!pending||pending.txnid!==txnid){$('paymentContent').innerHTML='<div class="payment-card"><h2>Payment verification needed</h2><p>We could not match this payment return to this browser. Open My Games and verify your registration email, or contact support if payment was deducted.</p><button class="red-btn" onclick="showPage(\'registrations\')">Open My Games</button></div>';showPage('payment');return}
   $('paymentContent').innerHTML='<div class="payment-card"><h2>Verifying payment…</h2><p>Please wait while we confirm the transaction directly with PayU.</p></div>';showPage('payment');
   try{
     const response=await fetch('/api/payu-status?txnid='+encodeURIComponent(txnid),{cache:'no-store'});
@@ -68,16 +68,17 @@ window.addEventListener('load',handlePayUReturn);
 function registrationCards(list){return list.map(r=>`<div class="ticket"><b>${r.game}</b><br><span class="reg-code">${r.code}</span><br>👤 ${r.name} • ${r.age} years<br>📅 ${r.date} • ${r.time}<br>💰 ₹${r.fee} paid</div>`).join('')}
 function renderRegistrations(){
   const local=registrations.length?'<div class="summary"><b>Saved on this device</b><br>'+registrations.length+' paid game'+(registrations.length===1?'':'s')+' • ₹'+(registrations.length*50)+' paid</div>'+registrationCards(registrations):'<div class="empty">No registrations saved on this device.</div>';
-  $('registrationList').innerHTML=`<div class="form-card"><h3>Find all my paid games</h3><p>On any phone, enter the mobile number used for payment and any one of your registration codes.</p><form class="form" onsubmit="lookupMyGames(event)"><label>Mobile Number<input id="lookupMobile" required type="tel" pattern="[0-9]{10}" placeholder="10-digit mobile number"></label><label>Registration Code<input id="lookupCode" required placeholder="AGR26-XXXXXXXX" autocapitalize="characters"></label><button class="red-btn">Show My Games</button></form><p id="lookupStatus" style="font-size:12px;text-align:center"></p></div><div id="serverRegistrations"></div>${local}`;
+  $('registrationList').innerHTML=`<div class="form-card"><h3>Find all my paid games</h3><p>Enter the email used during registration. We’ll send a 6-digit verification code.</p><form class="form" onsubmit="sendMyGamesOtp(event)"><label>Registration Email<input id="lookupEmail" required type="email" placeholder="Email used during registration"></label><button id="sendOtpBtn" class="red-btn">Send OTP</button></form><div id="otpBox" style="display:none;margin-top:14px"><form class="form" onsubmit="verifyMyGamesOtp(event)"><label>6-digit OTP<input id="lookupOtp" required inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="123456"></label><button class="red-btn">Verify & Show My Games</button></form></div><p id="lookupStatus" style="font-size:12px;text-align:center"></p></div><div id="serverRegistrations"></div>${local}`;
 }
-async function lookupMyGames(e){
-  e.preventDefault(); const status=$('lookupStatus'), target=$('serverRegistrations'); status.textContent='Checking paid registrations…';
-  try{
-    const response=await fetch('/api/my-games',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mobile:$('lookupMobile').value,code:$('lookupCode').value})});
-    const data=await response.json(); if(!response.ok) throw new Error(data.error||'Could not find registrations.');
-    const list=data.registrations||[]; const total=list.reduce((n,r)=>n+Number(r.fee||0),0);
-    target.innerHTML=`<div class="summary"><b>All paid games</b><br>${list.length} game${list.length===1?'':'s'} • ₹${total} paid</div>`+registrationCards(list); status.textContent='';
-  }catch(err){target.innerHTML='';status.textContent=err.message}
+async function sendMyGamesOtp(e){
+  e.preventDefault(); const status=$('lookupStatus'),btn=$('sendOtpBtn'); btn.disabled=true;status.textContent='Sending verification code…';
+  try{const response=await fetch('/api/send-email-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('lookupEmail').value})});const data=await response.json();if(!response.ok)throw new Error(data.error||'Could not send OTP.');$('otpBox').style.display='block';status.textContent='If this email has paid registrations, a 6-digit OTP has been sent. Check your inbox and spam folder.'}
+  catch(err){status.textContent=err.message}finally{btn.disabled=false}
+}
+async function verifyMyGamesOtp(e){
+  e.preventDefault(); const status=$('lookupStatus'),target=$('serverRegistrations');status.textContent='Verifying…';
+  try{const response=await fetch('/api/verify-email-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('lookupEmail').value,otp:$('lookupOtp').value})});const data=await response.json();if(!response.ok)throw new Error(data.error||'Verification failed.');const list=data.registrations||[],total=list.reduce((n,r)=>n+Number(r.fee||0),0);target.innerHTML=`<div class="summary"><b>All paid games</b><br>${list.length} game${list.length===1?'':'s'} • ₹${total} paid</div>`+registrationCards(list);status.textContent='Email verified.'}
+  catch(err){target.innerHTML='';status.textContent=err.message}
 }
 
 
