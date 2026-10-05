@@ -48,6 +48,9 @@ export async function ensureSchema() {
     )
   `;
   await q`CREATE INDEX IF NOT EXISTS registrations_mobile_idx ON registrations (mobile)`;
+  await q`CREATE INDEX IF NOT EXISTS registrations_email_idx ON registrations (LOWER(email))`;
+  await q`\n    CREATE TABLE IF NOT EXISTS email_otps (\n      id BIGSERIAL PRIMARY KEY,\n      email TEXT NOT NULL,\n      otp_hash TEXT NOT NULL,\n      expires_at TIMESTAMPTZ NOT NULL,\n      used_at TIMESTAMPTZ,\n      attempts INTEGER NOT NULL DEFAULT 0,\n      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()\n    )\n  `;
+  await q`CREATE INDEX IF NOT EXISTS email_otps_email_idx ON email_otps (LOWER(email), created_at DESC)`;
   initialized = true;
 }
 
