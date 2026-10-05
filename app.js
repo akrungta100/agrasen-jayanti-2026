@@ -36,28 +36,49 @@ async function startPayUPayment(){
   const status=$('payStatus'), btn=$('payuPayBtn');
   btn.disabled=true; btn.textContent='Opening secure payment…'; status.textContent='Please wait.';
   try{
-    const response=await fetch('/api/payu-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({gameId:selected.id,gameName:selected.name,participantName:$('pname').value,mobile:$('mobile').value,age:$('age').value,email:$('email').value})});
+    const response=await fetch('/api/payu-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({gameId:selected.id,gameName:selected.name,participantName:$('pname').value,mobile:$('mobile').value,age:$('age').value,email:$('email').value,guardian:$('guardian').value,eventDate:selected.dateLabel,eventTime:selected.time})});
     const data=await response.json(); if(!response.ok) throw new Error(data.error||'Could not start PayU payment');
-    sessionStorage.setItem('agrasen_pending',JSON.stringify({game:selected.name,gameId:selected.id,name:$('pname').value,mobile:$('mobile').value,age:$('age').value,guardian:$('guardian').value,date:selected.dateLabel,time:selected.time,fee:50,txnid:data.fields.txnid}));
+    localStorage.setItem('agrasen_pending',JSON.stringify({txnid:data.fields.txnid,mobile:$('mobile').value}));
     const form=document.createElement('form'); form.method='POST'; form.action=data.action;
     Object.entries(data.fields).forEach(([name,value])=>{const input=document.createElement('input');input.type='hidden';input.name=name;input.value=value;form.appendChild(input)});
     document.body.appendChild(form); form.submit();
   }catch(err){btn.disabled=false;btn.textContent='Pay ₹50 securely with PayU';status.textContent=err.message||'Payment could not be started.'}
 }
-function completePayURegistration(paymentId,txnid){
-  const pending=JSON.parse(sessionStorage.getItem('agrasen_pending')||'null'); if(!pending)return;
-  const code='AGR26-'+Math.floor(100000+Math.random()*900000);
-  const r={...pending,code,paymentId,orderId:txnid}; registrations.unshift(r);localStorage.setItem('agrasen_regs',JSON.stringify(registrations));sessionStorage.removeItem('agrasen_pending');
-  $('successContent').innerHTML=`<div class="success-card"><div class="check">✓</div><h2>Registration Confirmed</h2><p>PayU payment verified successfully</p><div class="reg-code">${code}</div><div class="ticket"><b>${r.game}</b><br>Participant: ${r.name}<br>Mobile: ${r.mobile}<br>Age: ${r.age}<br>Date: ${r.date}<br>Time: ${r.time}<br><strong>Paid: ₹50</strong><br><small>PayU Payment: ${paymentId}</small></div><button class="red-btn" onclick="showPage('registrations')">View My Registrations</button></div>`;showPage('success');
+function completePayURegistration(r){
+  registrations=registrations.filter(x=>x.orderId!==r.orderId); registrations.unshift(r);
+  localStorage.setItem('agrasen_regs',JSON.stringify(registrations));
+  localStorage.removeItem('agrasen_pending');
+  $('successContent').innerHTML=`<div class="success-card"><div class="check">✓</div><h2>Registration Confirmed</h2><p>PayU payment verified successfully</p><div class="reg-code">${r.code}</div><div class="ticket"><b>${r.game}</b><br>Participant: ${r.name}<br>Mobile: ${r.mobile}<br>Age: ${r.age}<br>Date: ${r.date}<br>Time: ${r.time}<br><strong>Paid: ₹50</strong><br><small>PayU Payment: ${r.paymentId}</small></div><p style="font-size:12px">Keep this registration code. On another phone, use it with your mobile number in My Games to see all your paid games.</p><button class="red-btn" onclick="showPage('registrations')">View My Registrations</button></div>`;showPage('success');
 }
-function handlePayUReturn(){
-  const q=new URLSearchParams(location.search), result=q.get('payu'); if(!result)return;
-  history.replaceState({},'',location.pathname);
-  if(result==='success') completePayURegistration(q.get('paymentId')||'',q.get('txnid')||'');
-  else { const reason=q.get('reason')||'Payment was not completed.'; $('paymentContent').innerHTML=`<div class="payment-card"><div class="page-title"><span>PAYMENT NOT COMPLETED</span><h2>Please try again</h2></div><p>${reason}</p><button class="red-btn" onclick="showPage('games')">Back to Games</button></div>`;showPage('payment'); }
+async function handlePayUReturn(){
+  const q=new URLSearchParams(location.search), result=q.get('payu'); if(result!=='return')return;
+  const txnid=q.get('txnid')||''; history.replaceState({},'',location.pathname);
+  const pending=JSON.parse(localStorage.getItem('agrasen_pending')||'null');
+  if(!pending||pending.txnid!==txnid){$('paymentContent').innerHTML='<div class="payment-card"><h2>Payment verification needed</h2><p>We could not match this payment return to this browser. Open My Games with your mobile number and registration code, or contact support if payment was deducted.</p><button class="red-btn" onclick="showPage(\'registrations\')">Open My Games</button></div>';showPage('payment');return}
+  $('paymentContent').innerHTML='<div class="payment-card"><h2>Verifying payment…</h2><p>Please wait while we confirm the transaction directly with PayU.</p></div>';showPage('payment');
+  try{
+    const response=await fetch('/api/payu-status?txnid='+encodeURIComponent(txnid),{cache:'no-store'});
+    const data=await response.json();
+    if(!response.ok) throw new Error(data.error||'Could not verify payment.');
+    if(data.verified&&data.registration) completePayURegistration(data.registration);
+    else {$('paymentContent').innerHTML='<div class="payment-card"><h2>Payment not confirmed</h2><p>PayU has not confirmed this transaction as successful. If money was deducted, please check My Games shortly or contact support.</p><button class="red-btn" onclick="showPage(\'games\')">Back to Games</button></div>';showPage('payment')}
+  }catch(err){$('paymentContent').innerHTML=`<div class="payment-card"><h2>Verification delayed</h2><p>${err.message}</p><button class="red-btn" onclick="location.reload()">Try Again</button></div>`;showPage('payment')}
 }
 window.addEventListener('load',handlePayUReturn);
-function renderRegistrations(){if(!registrations.length){$('registrationList').innerHTML='<div class="empty">No registrations yet.<br>Choose a game and register for ₹50.</div>';return}$('registrationList').innerHTML=registrations.map(r=>`<div class="ticket"><b>${r.game}</b><br><span class="reg-code">${r.code}</span><br>👤 ${r.name} • ${r.age} years<br>📅 ${r.date} • ${r.time}<br>💰 ₹${r.fee} paid</div>`).join('')}
+function registrationCards(list){return list.map(r=>`<div class="ticket"><b>${r.game}</b><br><span class="reg-code">${r.code}</span><br>👤 ${r.name} • ${r.age} years<br>📅 ${r.date} • ${r.time}<br>💰 ₹${r.fee} paid</div>`).join('')}
+function renderRegistrations(){
+  const local=registrations.length?'<div class="summary"><b>Saved on this device</b><br>'+registrations.length+' paid game'+(registrations.length===1?'':'s')+' • ₹'+(registrations.length*50)+' paid</div>'+registrationCards(registrations):'<div class="empty">No registrations saved on this device.</div>';
+  $('registrationList').innerHTML=`<div class="form-card"><h3>Find all my paid games</h3><p>On any phone, enter the mobile number used for payment and any one of your registration codes.</p><form class="form" onsubmit="lookupMyGames(event)"><label>Mobile Number<input id="lookupMobile" required type="tel" pattern="[0-9]{10}" placeholder="10-digit mobile number"></label><label>Registration Code<input id="lookupCode" required placeholder="AGR26-XXXXXXXX" autocapitalize="characters"></label><button class="red-btn">Show My Games</button></form><p id="lookupStatus" style="font-size:12px;text-align:center"></p></div><div id="serverRegistrations"></div>${local}`;
+}
+async function lookupMyGames(e){
+  e.preventDefault(); const status=$('lookupStatus'), target=$('serverRegistrations'); status.textContent='Checking paid registrations…';
+  try{
+    const response=await fetch('/api/my-games',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mobile:$('lookupMobile').value,code:$('lookupCode').value})});
+    const data=await response.json(); if(!response.ok) throw new Error(data.error||'Could not find registrations.');
+    const list=data.registrations||[]; const total=list.reduce((n,r)=>n+Number(r.fee||0),0);
+    target.innerHTML=`<div class="summary"><b>All paid games</b><br>${list.length} game${list.length===1?'':'s'} • ₹${total} paid</div>`+registrationCards(list); status.textContent='';
+  }catch(err){target.innerHTML='';status.textContent=err.message}
+}
 
 
 const galleryImages=[
