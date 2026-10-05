@@ -25,32 +25,38 @@ $('date')?.addEventListener('change',renderGames);
 $('category')?.addEventListener('change',renderGames);
 $('ageFilter')?.addEventListener('change',renderGames);
 function openDetails(id){selected=games.find(g=>g.id===id);$('detailsContent').innerHTML=`<div class="detail-card"><img src="assets/${selected.poster}"><div class="detail-body"><h2>${selected.name}</h2><div class="detail-meta"><div>📅 <b>${selected.dateLabel}</b></div><div>⏰ <b>${selected.time}</b></div><div>👥 <b>${selected.category}</b></div><div>🎂 <b>${selected.age}</b></div></div><div class="fee">Registration Fee: ₹50 / participant</div><p>No participant limit. No slot booking or slot duration.</p><button class="red-btn" onclick="openRegister()">Register for this Game →</button></div></div>`;showPage('details')}
-function openRegister(){$('registerContent').innerHTML=`<div class="form-card"><div class="page-title"><span>REGISTRATION</span><h2>${selected.name}</h2></div><div class="summary">📅 ${selected.dateLabel} • ⏰ ${selected.time}<br>👥 ${selected.category} • 🎂 ${selected.age}<br><b>₹50 per participant</b></div><form class="form" onsubmit="goPayment(event)"><label>Participant Name<input id="pname" required placeholder="Enter full name"></label><label>Mobile / WhatsApp Number<input id="mobile" required type="tel" pattern="[0-9]{10}" placeholder="10-digit mobile number"></label><label>Age<input id="age" required type="number" min="0" max="100" placeholder="Age"></label><label>Guardian / Partner Name<input id="guardian" placeholder="If applicable"></label><button class="red-btn">Continue →</button></form></div>`;showPage('register')}
+function openRegister(){$('registerContent').innerHTML=`<div class="form-card"><div class="page-title"><span>REGISTRATION</span><h2>${selected.name}</h2></div><div class="summary">📅 ${selected.dateLabel} • ⏰ ${selected.time}<br>👥 ${selected.category} • 🎂 ${selected.age}<br><b>₹50 per participant</b></div><form class="form" onsubmit="goPayment(event)"><label>Participant Name<input id="pname" required placeholder="Enter full name"></label><label>Mobile / WhatsApp Number<input id="mobile" required type="tel" pattern="[0-9]{10}" placeholder="10-digit mobile number"></label><label>Age<input id="age" required type="number" min="0" max="100" placeholder="Age"></label><label>Email<input id="email" required type="email" placeholder="Email for payment receipt"></label><label>Guardian / Partner Name<input id="guardian" placeholder="If applicable"></label><button class="red-btn">Continue →</button></form></div>`;showPage('register')}
 async function goPayment(e){
   e.preventDefault();
-  const name=$('pname').value.trim(), mobile=$('mobile').value.trim(), age=$('age').value.trim(), guardian=$('guardian').value.trim();
-  $('paymentContent').innerHTML=`<div class="payment-card"><div class="page-title"><span>SECURE PAYMENT</span><h2>₹50 Registration Fee</h2></div><div class="summary"><b>${selected.name}</b><br>${name}<br>${mobile}<br>Age: ${age}<br><br><strong>Total: ₹50</strong></div><div style="background:#f7f1e6;padding:22px;border-radius:15px;text-align:center">🔐<br><b>Razorpay Secure Checkout</b><br><small>UPI, cards and other enabled payment methods will appear in Razorpay Checkout.</small></div><button id="rzpPayBtn" class="red-btn" onclick="startRazorpayPayment()">Pay ₹50 with UPI / Razorpay</button><p id="payStatus" style="font-size:12px;text-align:center;color:#765f57"></p></div>`;
+  const name=$('pname').value.trim(), mobile=$('mobile').value.trim(), age=$('age').value.trim(), email=$('email').value.trim();
+  $('paymentContent').innerHTML=`<div class="payment-card"><div class="page-title"><span>SECURE PAYMENT</span><h2>₹50 Registration Fee</h2></div><div class="summary"><b>${selected.name}</b><br>${name}<br>${mobile}<br>Age: ${age}<br><br><strong>Total: ₹50</strong></div><div style="background:#f7f1e6;padding:22px;border-radius:15px;text-align:center">🔐<br><b>PayU Secure Checkout</b><br><small>UPI, cards and other available payment methods will open securely on PayU.</small></div><button id="payuPayBtn" class="red-btn" onclick="startPayUPayment()">Pay ₹50 securely with PayU</button><p id="payStatus" style="font-size:12px;text-align:center;color:#765f57"></p></div>`;
   showPage('payment');
 }
-async function startRazorpayPayment(){
-  const status=$('payStatus'), btn=$('rzpPayBtn');
-  btn.disabled=true; btn.textContent='Creating secure order…'; status.textContent='Please wait.';
+async function startPayUPayment(){
+  const status=$('payStatus'), btn=$('payuPayBtn');
+  btn.disabled=true; btn.textContent='Opening secure payment…'; status.textContent='Please wait.';
   try{
-    const orderRes=await fetch('/api/create-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({gameId:selected.id,participantName:$('pname').value,mobile:$('mobile').value,age:$('age').value})});
-    const order=await orderRes.json(); if(!orderRes.ok) throw new Error(order.error||'Could not create order');
-    await loadRazorpay();
-    const options={key:order.keyId,amount:order.amount,currency:order.currency,name:'Agrasen Jayanti Mahotsav 2026',description:`${selected.name} – Registration`,order_id:order.orderId,prefill:{name:$('pname').value,contact:'+91'+$('mobile').value},notes:{game:selected.name,event:'Agrasen Jayanti Mahotsav 2026'},theme:{color:'#8d1424'},handler:async function(response){
-      btn.disabled=true; btn.textContent='Verifying payment…'; status.textContent='Checking payment with Razorpay.';
-      try{const verifyRes=await fetch('/api/verify-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(response)});const verify=await verifyRes.json();if(!verifyRes.ok)throw new Error(verify.error||'Payment verification failed');completeRegistration(response,verify)}catch(err){btn.disabled=false;btn.textContent='Payment received — retry verification';status.textContent=err.message||'Payment verification failed. Please contact the organiser.'}
-    }};
-    const rzp=new Razorpay(options);
-    rzp.on('payment.failed',response=>{btn.disabled=false;btn.textContent='Try Payment Again';status.textContent=response.error?.description||'Payment failed. Please try again.';});
-    rzp.open();
-    btn.disabled=false; btn.textContent='Pay ₹50 with UPI / Razorpay';
-  }catch(err){btn.disabled=false;btn.textContent='Pay ₹50 with UPI / Razorpay';status.textContent=err.message||'Payment could not be started.';}
+    const response=await fetch('/api/payu-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({gameId:selected.id,gameName:selected.name,participantName:$('pname').value,mobile:$('mobile').value,age:$('age').value,email:$('email').value})});
+    const data=await response.json(); if(!response.ok) throw new Error(data.error||'Could not start PayU payment');
+    sessionStorage.setItem('agrasen_pending',JSON.stringify({game:selected.name,gameId:selected.id,name:$('pname').value,mobile:$('mobile').value,age:$('age').value,guardian:$('guardian').value,date:selected.dateLabel,time:selected.time,fee:50,txnid:data.fields.txnid}));
+    const form=document.createElement('form'); form.method='POST'; form.action=data.action;
+    Object.entries(data.fields).forEach(([name,value])=>{const input=document.createElement('input');input.type='hidden';input.name=name;input.value=value;form.appendChild(input)});
+    document.body.appendChild(form); form.submit();
+  }catch(err){btn.disabled=false;btn.textContent='Pay ₹50 securely with PayU';status.textContent=err.message||'Payment could not be started.'}
 }
-function loadRazorpay(){return new Promise((resolve,reject)=>{if(window.Razorpay)return resolve();const s=document.createElement('script');s.src='https://checkout.razorpay.com/v1/checkout.js';s.onload=resolve;s.onerror=()=>reject(new Error('Could not load Razorpay Checkout.'));document.head.appendChild(s)})}
-function completeRegistration(payment,verified){let code='AGR26-'+Math.floor(100000+Math.random()*900000);let r={code,game:selected.name,gameId:selected.id,name:$('pname').value,mobile:$('mobile').value,age:$('age').value,guardian:$('guardian').value,date:selected.dateLabel,time:selected.time,fee:50,paymentId:verified.paymentId,orderId:verified.orderId};registrations.unshift(r);localStorage.setItem('agrasen_regs',JSON.stringify(registrations));$('successContent').innerHTML=`<div class="success-card"><div class="check">✓</div><h2>Registration Confirmed</h2><p>Payment verified successfully</p><div class="reg-code">${code}</div><div class="ticket"><b>${r.game}</b><br>Participant: ${r.name}<br>Mobile: ${r.mobile}<br>Age: ${r.age}<br>Date: ${r.date}<br>Time: ${r.time}<br><strong>Paid: ₹50</strong><br><small>Razorpay Payment: ${r.paymentId}</small></div><button class="red-btn" onclick="showPage('registrations')">View My Registrations</button></div>`;showPage('success')}
+function completePayURegistration(paymentId,txnid){
+  const pending=JSON.parse(sessionStorage.getItem('agrasen_pending')||'null'); if(!pending)return;
+  const code='AGR26-'+Math.floor(100000+Math.random()*900000);
+  const r={...pending,code,paymentId,orderId:txnid}; registrations.unshift(r);localStorage.setItem('agrasen_regs',JSON.stringify(registrations));sessionStorage.removeItem('agrasen_pending');
+  $('successContent').innerHTML=`<div class="success-card"><div class="check">✓</div><h2>Registration Confirmed</h2><p>PayU payment verified successfully</p><div class="reg-code">${code}</div><div class="ticket"><b>${r.game}</b><br>Participant: ${r.name}<br>Mobile: ${r.mobile}<br>Age: ${r.age}<br>Date: ${r.date}<br>Time: ${r.time}<br><strong>Paid: ₹50</strong><br><small>PayU Payment: ${paymentId}</small></div><button class="red-btn" onclick="showPage('registrations')">View My Registrations</button></div>`;showPage('success');
+}
+function handlePayUReturn(){
+  const q=new URLSearchParams(location.search), result=q.get('payu'); if(!result)return;
+  history.replaceState({},'',location.pathname);
+  if(result==='success') completePayURegistration(q.get('paymentId')||'',q.get('txnid')||'');
+  else { const reason=q.get('reason')||'Payment was not completed.'; $('paymentContent').innerHTML=`<div class="payment-card"><div class="page-title"><span>PAYMENT NOT COMPLETED</span><h2>Please try again</h2></div><p>${reason}</p><button class="red-btn" onclick="showPage('games')">Back to Games</button></div>`;showPage('payment'); }
+}
+window.addEventListener('load',handlePayUReturn);
 function renderRegistrations(){if(!registrations.length){$('registrationList').innerHTML='<div class="empty">No registrations yet.<br>Choose a game and register for ₹50.</div>';return}$('registrationList').innerHTML=registrations.map(r=>`<div class="ticket"><b>${r.game}</b><br><span class="reg-code">${r.code}</span><br>👤 ${r.name} • ${r.age} years<br>📅 ${r.date} • ${r.time}<br>💰 ₹${r.fee} paid</div>`).join('')}
 
 
